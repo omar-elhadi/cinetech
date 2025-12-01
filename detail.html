@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Détails – Cinetech</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="index.html">Cinetech</a></h1>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="movies.html">Films</a>
+        <a href="series.html">Séries</a>
+        <a href="favorites.html">Favoris</a>
+      </nav>
+      <input id="search" type="text" placeholder="Rechercher…" />
+      <div id="suggestions"></div>
+    </header>
+
+    <main id="detail-container">Chargement…</main>
+
+    <section id="comment-section">
+      <h3>Commentaires</h3>
+      <div id="user-comments"></div>
+    </section>
+
+    <script type="module" src="js/detail-comments.js"></script>
+    <script type="module" src="js/search.js"></script>
+    <script type="module">
+      import { fetchDetails } from "./js/api.js";
+      import { toggleFavorite } from "./js/favorites.js";
+
+      const params = new URLSearchParams(location.search);
+      const type = params.get("type");
+      const id = params.get("id");
+
+      const data = await fetchDetails(type, id);
+
+      document.getElementById("detail-container").innerHTML = `
+      <h2>${data.title || data.name}
+        <button id="fav-btn">♡ Favori</button>
+      </h2>
+      <img loading="lazy" src="https://image.tmdb.org/t/p/w500${
+        data.poster_path
+      }" alt="">
+      <p>${data.overview}</p>
+
+      <h3>Distribution</h3>
+      <ul>${data.credits.cast
+        .slice(0, 8)
+        .map((c) => `<li>${c.name} (${c.character})</li>`)
+        .join("")}</ul>
+
+      <h3>Similaires</h3>
+      <div class="grid">
+        ${data.similar.results
+          .slice(0, 6)
+          .map(
+            (s) => `
+          <div class="card" data-id="${s.id}" data-type="${type}">
+            <img loading="lazy" src="https://image.tmdb.org/t/p/w200${
+              s.poster_path
+            }">
+            <p>${s.title || s.name}</p>
+          </div>`
+          )
+          .join("")}
+      </div>
+    `;
+
+      // favorite toggle
+      const btn = document.getElementById("fav-btn");
+      const favKey = `fav-${type}-${id}`;
+      if (localStorage.getItem(favKey)) btn.textContent = "♥ Ajouté";
+      btn.onclick = () => {
+        toggleFavorite({
+          id,
+          type,
+          title: data.title || data.name,
+          poster: data.poster_path,
+        });
+        btn.textContent = localStorage.getItem(favKey)
+          ? "♥ Ajouté"
+          : "♡ Favori";
+      };
+    </script>
+  </body>
+</html>

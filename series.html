@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Séries – Cinetech</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="index.html">Cinetech</a></h1>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="movies.html">Films</a>
+        <a href="series.html">Séries</a>
+        <a href="favorites.html">Favoris</a>
+      </nav>
+      <input id="search" type="text" placeholder="Rechercher…" />
+      <div id="suggestions"></div>
+    </header>
+
+    <main>
+      <h2>Toutes les Séries</h2>
+      <div id="series-grid" class="grid"></div>
+      <div class="pagination">
+        <button id="prev">‹ Précédent</button>
+        <span id="page-info">Page 1</span>
+        <button id="next">Suivant ›</button>
+      </div>
+    </main>
+
+    <script type="module" src="js/router.js"></script>
+    <script type="module">
+      import { fetchList } from "./js/api.js";
+      import { renderCards } from "./js/ui.js";
+
+      let page = 1;
+      const pageInfo = document.getElementById("page-info");
+
+      async function load() {
+        const data = await fetchList("tv", page);
+        renderCards(data.results, "#series-grid");
+        pageInfo.textContent = `Page ${page}`;
+        document.getElementById("prev").disabled = page === 1;
+      }
+      document.getElementById("next").onclick = () => {
+        page++;
+        load();
+      };
+      document.getElementById("prev").onclick = () => {
+        if (page > 1) {
+          page--;
+          load();
+        }
+      };
+      load();
+    </script>
+    <script type="module" src="js/search.js"></script>
+  </body>
+</html>
