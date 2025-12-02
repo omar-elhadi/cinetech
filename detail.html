@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -42,15 +42,19 @@
       <h2>${data.title || data.name}
         <button id="fav-btn">♡ Favori</button>
       </h2>
-      <img loading="lazy" src="https://image.tmdb.org/t/p/w500${
+      <img class="poster" loading="lazy" src="https://image.tmdb.org/t/p/w500${
         data.poster_path
       }" alt="">
-      <p>${data.overview}</p>
+      <p class="overview">${data.overview}</p>
 
       <h3>Distribution</h3>
-      <ul>${data.credits.cast
+      <ul class="cast-card">${data.credits.cast
         .slice(0, 8)
-        .map((c) => `<li>${c.name} (${c.character})</li>`)
+        .map(
+          (cast) => `
+        <li class="cast-member"><img src="https://image.tmdb.org/t/p/w92${cast.profile_path}" alt="${cast.name}"><p>${cast.name} (${cast.character})</p></li>
+        `,
+        )
         .join("")}</ul>
 
       <h3>Similaires</h3>
@@ -64,7 +68,7 @@
               s.poster_path
             }">
             <p>${s.title || s.name}</p>
-          </div>`
+          </div>`,
           )
           .join("")}
       </div>

@@ -1,4 +1,5 @@
 /* RESET */
+/* Remove default browser spacing and ensure consistent box-sizing */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,8 +7,8 @@
 }
 body {
   font-family: system-ui, sans-serif;
-  background: #111;
-  color: #eee;
+  background: #0a0a0a; /* Very dark background for cinematic feel */
+  color: #e0e0e0; /* Light gray text for better readability on dark bg */
 }
 a {
   color: inherit;
@@ -15,6 +16,7 @@ a {
 }
 
 /* HEADER */
+/* Flexbox layout for responsive navigation bar */
 header {
   display: flex;
   flex-wrap: wrap;
@@ -23,40 +25,101 @@ header {
   gap: 1rem;
   padding: 1rem;
   background: #000;
+  border-bottom: 1px solid #1a1a1a; /* Subtle separator */
 }
 header h1 {
+  padding-left: 2rem;
   margin-right: auto;
   color: transparent;
-  background-clip: text;
-  background-image: linear-gradient(to right, #8e0e00, #1f1c18);
+  background-clip: text; /* Clips gradient to text only */
+  background-image: linear-gradient(
+    to right,
+    #c41e3a,
+    #8b0000
+  ); /* Red gradient for cinematic branding */
+  font-weight: 600;
 }
 nav a {
   margin-right: 1rem;
 }
+
+ul li {
+  list-style: none;
+}
+
 #search {
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
-  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #1a1a1a; /* Dark input background */
+  color: #e0e0e0;
   width: 180px;
+  transition: border-color 0.2s; /* Smooth focus effect */
+}
+#search:focus {
+  outline: none; /* Remove default browser outline */
+  border-color: #555; /* Lighter border on focus */
 }
 #suggestions {
   position: absolute;
   top: 60px;
   right: 1rem;
-  background: #fff;
-  color: #000;
-  max-width: 200px;
-  border-radius: 4px;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  max-width: 250px;
+  border-radius: 6px;
   overflow: hidden;
-  z-index: 10;
+  z-index: 10; /* Ensure dropdown appears above other content */
+  border: 1px solid #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Depth shadow */
 }
 .suggestion {
-  padding: 0.4rem;
+  padding: 0.6rem 0.8rem;
   cursor: pointer;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #2a2a2a;
+  transition: background 0.2s;
 }
 .suggestion:hover {
-  background: #f2f2f2;
+  background: #252525;
+}
+.suggestion small {
+  color: #888;
+}
+
+.overview {
+  line-height: 1.7;
+  margin: 3rem auto;
+}
+
+.cast-card {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(100px, 1fr)
+  ); /* Responsive grid with 100px min */
+  margin: 2rem 0;
+  max-width: 700px; /* Prevent stretching on wide screens */
+}
+.cast-member {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cast-member p {
+  font-size: 0.85rem;
+  text-align: center;
+  color: #b0b0b0;
+  line-height: 1.3;
+}
+.cast-member img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* Crop to fit square dimensions */
+  border-radius: 50%; /* Make circular */
+  border: 2px solid #222; /* Subtle border for definition */
 }
 
 /* MAIN */
@@ -69,6 +132,7 @@ main section h2 {
 }
 
 /* GRIDS */
+/* Auto-filling responsive grid for movie/series cards */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -78,47 +142,149 @@ main section h2 {
 .card {
   cursor: pointer;
   text-align: center;
+  transition: transform 0.2s, opacity 0.2s; /* Smooth hover animation */
+}
+.card:hover {
+  transform: translateY(-4px); /* Lift card on hover */
+  opacity: 0.85; /* Slight fade for interaction feedback */
 }
 .card img {
   width: 100%;
   border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.card p {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #b0b0b0;
 }
 
 /* DETAIL */
+/* Individual movie/series detail page styling */
 #detail-container {
   padding: 1rem;
-  max-width: 900px;
-  margin: auto;
+  max-width: 900px; /* Readable content width */
+  margin: 2rem auto;
 }
-#detail-container img {
-  max-width: 300px;
+#detail-container h2 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+#detail-container h3 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: #c0c0c0;
+  font-size: 1.3rem;
+}
+#detail-container img.poster {
+  max-width: 300px; /* Limit poster size for better layout */
   border-radius: 8px;
   display: block;
   margin: 1rem 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7); /* Dramatic shadow for depth */
+}
+#detail-container .grid {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(120px, 1fr)
+  ); /* Smaller cards for similar section */
+  gap: 0.8rem;
+  padding: 0;
+  max-width: 600px; /* Keep similar items compact */
 }
 
 /* COMMENTS */
+/* User comment section with proper layout constraints */
+#comment-section {
+  max-width: 900px; /* Match detail container width */
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+#comment-section h3 {
+  margin-bottom: 1.5rem;
+  color: #c0c0c0;
+}
 .comment {
-  border-left: 3px solid #444;
-  padding-left: 0.8rem;
-  margin: 0.8rem 0;
+  background: #151515; /* Slightly lighter than body for separation */
+  border-left: 3px solid #333; /* Accent border for visual hierarchy */
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+.comment p {
+  line-height: 1.5;
+}
+.comment small {
+  color: #888;
+  font-size: 0.85rem;
 }
 .reply {
   margin-left: 1.5rem;
+  margin-top: 0.5rem;
+  padding: 0.6rem;
   font-size: 0.9rem;
   color: #aaa;
+  background: #0f0f0f;
+  border-radius: 3px;
+  border-left: 2px solid #2a2a2a;
 }
-#user-comments textarea {
+#user-comments textarea,
+#new-top,
+.comment textarea {
   width: 100%;
-  margin-top: 0.5rem;
+  max-width: 600px; /* Prevent textarea from being too wide */
+  min-height: 80px;
+  padding: 0.8rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.5rem;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-family: inherit; /* Match site font */
+  font-size: 0.95rem;
+  resize: vertical; /* Allow vertical resize only */
+  transition: border-color 0.2s;
+}
+#user-comments textarea:focus,
+.comment textarea:focus {
+  outline: none;
+  border-color: #555;
 }
 button {
-  padding: 0.3rem 0.6rem;
-  margin: 0.2rem 0;
+  padding: 0.6rem 1.2rem;
+  margin: 0.3rem 0.5rem 0.3rem 0;
+  background: #1f1f1f; /* Dark button background */
+  color: #e0e0e0;
+  border: 1px solid #333;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s; /* Smooth hover transitions */
+}
+button:hover {
+  background: #2a2a2a;
+  border-color: #444;
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+#fav-btn {
+  background: #2a1a1a; /* Red tint for favorite action */
+  border-color: #4a2a2a;
+}
+#fav-btn:hover {
+  background: #3a2020; /* Lighter red on hover */
+  border-color: #5a3030;
 }
 
 /* PAGINATION */
+/* Centered navigation controls for multi-page lists */
 .pagination {
   display: flex;
   justify-content: center;
@@ -138,17 +304,19 @@ footer {
   align-items: center;
   gap: 2rem;
 }
-
 footer ul {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
-
 footer ul li {
   margin: 10px auto;
   list-style: none;
 }
+
 /* RESPONSIVE */
+/* Tablet and up: horizontal header layout */
 @media (min-width: 640px) {
   header {
     flex-direction: row;
@@ -166,14 +334,16 @@ footer ul li {
   }
 }
 
+/* Desktop: larger grid items */
 @media (min-width: 960px) {
   .grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 }
 
+/* Large desktop: even larger grid items */
 @media (min-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
