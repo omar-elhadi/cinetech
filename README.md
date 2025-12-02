@@ -2,6 +2,20 @@
 
 A web application for browsing movies and TV series using The Movie Database (TMDB) API.
 
+## Demo
+
+### Homepage
+
+
+
+![Homepage](./assets/homepage.png)
+
+### Details Page
+
+
+
+![Details page](./assets/details.png)
+
 ## Setup
 
 ### API Key Configuration
