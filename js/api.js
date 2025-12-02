@@ -1,4 +1,5 @@
-const API_KEY = "ef4e8fb5f92b3746a5b002bdffed70d3";
+import { API_KEY } from "./config.js";
+
 const BASE = "https://api.themoviedb.org/3";
 
 export const fetchTrending = (t = "movie") =>
